@@ -11,7 +11,7 @@ router = APIRouter()
 measurement_service = MeasurementService()
 
 @router.on_event("startup")
-@repeat_every(seconds=3600)
+@repeat_every(seconds=60)
 async def save_measurements_periodically():
     """Background task: Save measurements to database every 5 seconds"""
     try:
