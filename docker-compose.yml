@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
+    container_name: cow-fastapi
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+      - ./data:/app/data
+      - ./measurements.db:/app/measurements.db
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - cow-network
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    container_name: cow-streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./streamlit_reports.py:/app/streamlit_reports.py
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - fastapi
+    restart: unless-stopped
+    networks:
+      - cow-network
+
+networks:
+  cow-network:
+    driver: bridge

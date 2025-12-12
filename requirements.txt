@@ -1,0 +1,14 @@
+fastapi
+fastapi-utils
+sqlmodel
+typing_inspect
+polars
+pydantic
+pydantic-settings
+pytest
+pytest-cov
+fastapi[standard]
+streamlit
+plotly
+pandas
+requests
