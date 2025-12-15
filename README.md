@@ -76,22 +76,22 @@ The dashboard will be available at `http://localhost:8501`
 
 ### Reports
 
-- `GET /api/v1/reports/milk/summary` - Get overall milk production summary
+- `GET /api/v1/reports/milk/summary/{cow_id}` - Get overall milk production summary by cow
   
   ```bash
-  curl http://localhost:8000/api/v1/reports/milk/summary
+  curl http://localhost:8000/api/v1/reports/milk/summary/123e4567-e89b-12d3-a456-426614174000
   ```
 
-- `GET /api/v1/reports/milk/daily` - Get daily milk production report
+- `GET /api/v1/reports/milk/daily/{cow_id}/{report_date}` - Get daily milk production report
   
   ```bash
-  curl http://localhost:8000/api/v1/reports/milk/daily
+  curl http://localhost:8000/api/v1/reports/milk/daily/123e4567-e89b-12d3-a456-426614174000/2025-12-12
   ```
 
-- `GET /api/v1/reports/milk/daily/{date}` - Get milk production for specific date
+- `GET /api/v1/reports/weight/{cow_id}` - Get weight report by cow
   
   ```bash
-  curl http://localhost:8000/api/v1/reports/milk/daily/2025-12-12
+  curl http://localhost:8000/api/v1/reports/weight/123e4567-e89b-12d3-a456-426614174000
   ```
 
 ### Health
@@ -119,3 +119,4 @@ Run with coverage:
 ```bash
 pytest --cov=app --cov=simulators
 ```
+
