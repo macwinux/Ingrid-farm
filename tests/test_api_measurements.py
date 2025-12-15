@@ -9,6 +9,14 @@ client = TestClient(app)
 
 
 @pytest.fixture
+def mock_db():
+    """Mock database"""
+    with patch('app.api.measurements.db') as mock_database:
+        mock_database.save_measurements = Mock()
+        yield mock_database
+
+
+@pytest.fixture
 def mock_measurement_service():
     """Mock MeasurementService"""
     with patch('app.api.measurements.measurement_service') as mock_service:
@@ -18,7 +26,7 @@ def mock_measurement_service():
 class TestMeasurementsEndpoints:
     """Tests for measurement endpoints"""
     
-    def test_get_next_measurement(self, mock_measurement_service):
+    def test_get_next_measurement(self, mock_db, mock_measurement_service):
         """Test GET /measurements/{cow_id} - get next measurement"""
         # Mock measurement data
         mock_measurement = MeasurementResponse(
@@ -40,6 +48,8 @@ class TestMeasurementsEndpoints:
         assert data["cow_id"] == "cow-1"
         assert data["value"] == 25.5
         assert data["unit"] == "L"
+        # Verify db.save_measurements was called
+        mock_db.save_measurements.assert_called_once()
     
     def test_get_next_measurement_not_found(self, mock_measurement_service):
         """Test GET /measurements/{cow_id} - cow not found"""
